@@ -11,8 +11,8 @@ gmail = Gmail.connect(variables[0], variables[1])
 puts gmail.logged_in?
 
 gmail.deliver do
-  to "isabelle@ecoutez-mieux.fr"
-  subject "Mon premier test d'envoi de mail avec l'API!"
+  to "isabellecorp@gmail.com"
+  subject "Mon deuxième test d'envoi de mail avec l'API depuis Marie Lucette!"
   text_part do
     body "Bon je ne sais pas trop quoi raconter, lol."
   end
