@@ -1,17 +1,16 @@
 require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
+require_relative 'titelize'
 
 def find_a_mail_in_string(string)
 	mail = string.scan(/.*\@.*/)
 	if mail != []
 		mail = mail[0].lstrip
-		return mail
+		return mail.slice(1..-2)
 	else
 		return ""
-	end
-
-	
+	end	
 end
 
 def get_the_email_of_a_townhal_from_its_webpage(url1) #récupère l'adresse email à partir de l'url d'une mairie
@@ -33,7 +32,7 @@ def get_all_the_urls_of_val_doise_townhalls #récupère toutes les url de villes
 	towns = page.xpath(xpath1)
 
 	towns.each do |town|
-		town_name = town.text
+		town_name = titleize(town.text)
 		town_url = town["href"].byteslice(1,town["href"].length)
 		towns_hash[:"#{town_name}"] = "http://annuaire-des-mairies.com#{town_url}"
 	end
