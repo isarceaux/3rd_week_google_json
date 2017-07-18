@@ -11,6 +11,7 @@ def send_email(email,mail_content,mail_subject)
 	gmail = Gmail.connect(variables[0], variables[1])
 	gmail.deliver do
 	  to email
+	  cc "marie1lucette@gmail.com"
 	  subject mail_subject
 	  #text_part do
 	  #  body mail_content
@@ -29,7 +30,7 @@ def get_email_from_spreadsheet(key)
 	i=2
 	session = GoogleDrive::Session.from_config("config.json") #ligne pour se connecter à l'API google drive
 	ws = session.spreadsheet_by_key(key).worksheets[0] #ligne pour ouvrir la spreadsheet
-	ws.num_rows.times do 
+	(ws.num_rows-1).times do 
 		email_hash[ws[i,1]] = ws[i,2]
 		i+=1
 	end
@@ -48,17 +49,18 @@ def mail_writing(town)
 	<p>Au plaisir d'échanger avec vous si vous souhaitez avoir des retours d'expérience, d'ici le 28 juillet.</p>
 	<p>Cordialement,</p>
 	<p>Marie Lucette</p>
+	<p>marie1lucette@gmail.com</p>
 	"
 	return content
 end
 
 def perform
-	spreadsheet_key = "1WNoSQVMPjuOhqOC5cinuhctiR1p5yk4JLq6uyePDFN8"
-	#spreadsheet_key = "1PsqSfePTkHpeEKY9DyUKxe9bi_0xcEnaOfMyQd2_bjc"
+	#spreadsheet_key = "1WNoSQVMPjuOhqOC5cinuhctiR1p5yk4JLq6uyePDFN8" #Liste des emails de test
+	spreadsheet_key = "1PsqSfePTkHpeEKY9DyUKxe9bi_0xcEnaOfMyQd2_bjc" #Liste des vrais emails des maires
 	email_hash = get_email_from_spreadsheet(spreadsheet_key)
 	email_hash.keys.each do |town|
 		mail_content = mail_writing(town)
-		send_email(email_hash[town],mail_writing(town),"A destination de #{town} - THP - RSVP avant le 28 juillet")
+		send_email(email_hash[town],mail_writing(town),"A destination du maire de #{town} - THP - RSVP avant le 28 juillet")
 	end
 	
 end
