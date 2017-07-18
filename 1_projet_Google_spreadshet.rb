@@ -8,8 +8,8 @@ def get_the_hash_that_I_scrapped_few_days_ago
 end
 
 def put_data_in_spreadsheet(hash_towns)
-	session = GoogleDrive::Session.from_config("config.json")
-	ws = session.spreadsheet_by_key("1Cy87fQ3hsZAuDPvmzIHxi5UfFc1OmKGXiISlM-V8EGs").worksheets[0]
+	session = GoogleDrive::Session.from_config("config.json") #ligne pour se connecter à l'API google drive
+	ws = session.spreadsheet_by_key("1Cy87fQ3hsZAuDPvmzIHxi5UfFc1OmKGXiISlM-V8EGs").worksheets[0] #ligne pour ouvrir la spreadsheet
 	towns = hash_towns.keys
 	i=1
 	towns.each do |town|
